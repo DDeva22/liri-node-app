@@ -7,3 +7,5 @@ const {
 } = process.env
 
 console.log(OMDB_API_KEY);
+console.log(SPOTIFY_API_KEY);
+console.log(BANDS_IN_TOWN_API_KEY);
