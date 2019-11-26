@@ -7,6 +7,9 @@ const bands = keys.bandsintown;
 const omdb = keys.omdb;
 
 
+//Variable for the 'questions' object. I do this to pass it into the switch case below
+let questAnswer = "";
+let doneAnswer = "";
 
 const {
     OMDB_API_KEY,
@@ -61,8 +64,33 @@ const areYouDone = [
 
 function inquire(){
     inquirer.prompt(questions).then(function (response){
-        console.log(response);
+        console.log(`This is your choice -> ${response["action"]}`);
+        console.log(`This is your choice -> ${response["searchFor"]}`);
+        questAnswer = response["action"];
+        
+        doneAnswer = response["searchFor"];
+
+        switch (questAnswer){
+            case "Songs":
+                spotifyS(doneAnswer);
+                break;
+            case "Movies":
+                omdbS(doneAnswer);
+                break;
+            case "Events":
+                bATS(doneAnswer);
+                break;
+        
+        }
+
+
+
+
         inquirer.prompt(areYouDone).then(function (again){
+            doneAnswer = again["continue"];
+
+
+
             if (again.continue) {
                 inquire();
             }
@@ -72,9 +100,40 @@ function inquire(){
 }
 
 
-// function askAgain(){
-//     return inquirer.prompt(areYouDone);
-// }
+
+
+
+
+
+function spotifyS(input){
+    console.log(`Spotify Activated`);
+
+}
+
+
+
+
+function omdbS(input){
+    console.log(`OMDB Activated`);
+
+}
+
+
+
+
+function bATS(input){
+    console.log(`BIT Activated`);
+
+}
+
+
+
+
+
+
+
+
+
 
 
 
