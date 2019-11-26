@@ -1,4 +1,5 @@
 require("dotenv").config();
+const axios = require("axios");
 const inquirer = require("inquirer");
 const keys = require("./keys.js");
 
@@ -106,7 +107,17 @@ function inquire(){
 
 
 function spotifyS(input){
-    console.log(`Spotify Activated`);
+    console.log(`Spotify Activated ${spotify.id} ${input}`);
+
+
+    axios
+        .get(`https://accounts.spotify.com/authorize?client_id=${spotify.id}&response_type=code&redirect_uri=https://api.spotify.com/v1/search?query=${input}&state=dnmn15726`)
+        // .get(`https://api.spotify.com/v1/search?query=${input}`);
+        .then( function (response) {
+            console.log(response);
+
+        });
+
 
 }
 
@@ -115,6 +126,32 @@ function spotifyS(input){
 
 function omdbS(input){
     console.log(`OMDB Activated`);
+    if (input === ""){
+        input = "mr.nobody";
+    }
+
+
+
+
+    axios
+        .get(`https://www.omdbapi.com/?t=${input}&plot=short&tomatoes=True&apikey=${omdb.id}`)
+        .then( function (response){
+            console.log(`Title: ${response.data.Title}`);
+            console.log(`Year: ${response.data.Year}`);
+            console.log(`IMDB Rating: ${response.data.imdbRating}`);
+
+
+            //"The Rotten Tomatoes data was removed to comply with a legal request from Fandango (who owns Rotten Tomatoes)."
+            //https://github.com/omdbapi/OMDb-API/issues/5
+            console.log(`SEE CODE FOR EXPLAINATION: ${response.data.tomatoMeter}`);
+            console.log(`Country: ${response.data.Country}`);
+            console.log(`Language: ${response.data.Language}`);
+            console.log(`Plot: ${response.data.Plot}`);
+            console.log(`Actors: ${response.data.Actors}`);
+        });
+
+
+
 
 }
 
