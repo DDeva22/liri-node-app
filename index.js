@@ -2,6 +2,7 @@ require("dotenv").config();
 const axios = require("axios");
 const inquirer = require("inquirer");
 const keys = require("./keys.js");
+const moment = require("moment");
 
 const spotify = keys.spotify;
 const bands = keys.bandsintown;
@@ -180,7 +181,7 @@ function bATS(input){
                 
                 console.log(`The place is called ${response.data[i].venue.name} located in ${response.data[i].venue.city}, ${response.data[i].venue.country}`);
                 console.log(i);
-                console.log(`The Date of the event is ${response.data[0].datetime}`);
+                console.log(`The Date of the event is ${moment(response.data[0].datetime).format("LLL")}`);
             }
         
 
@@ -193,9 +194,10 @@ function bATS(input){
         .catch( function(error){
             console.log(`No Events at this time!`);
         });
-        
 
 
+
+        // 2020-01-10T20:00:00
 
 
 
