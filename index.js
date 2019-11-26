@@ -136,6 +136,7 @@ function omdbS(input){
     axios
         .get(`https://www.omdbapi.com/?t=${input}&plot=short&tomatoes=True&apikey=${omdb.id}`)
         .then( function (response){
+            console.log("\n");
             console.log(`Title: ${response.data.Title}`);
             console.log(`Year: ${response.data.Year}`);
             console.log(`IMDB Rating: ${response.data.imdbRating}`);
@@ -160,6 +161,50 @@ function omdbS(input){
 
 function bATS(input){
     console.log(`BIT Activated`);
+    
+
+
+
+    const reinput = input.replace(" ", "%20");
+    
+
+
+
+
+    axios
+        .get(`https://rest.bandsintown.com/artists/${reinput}/events?app_id=codingbootcamp`)
+        .then( function (response){
+            // console.log(response.data);
+            for (i = 0; i <= 5; i++){
+                console.log("\n");
+                
+                console.log(`The place is called ${response.data[i].venue.name} located in ${response.data[i].venue.city}, ${response.data[i].venue.country}`);
+                console.log(i);
+                console.log(`The Date of the event is ${response.data[0].datetime}`);
+            }
+        
+
+
+
+
+
+        })
+
+        .catch( function(error){
+            console.log(`No Events at this time!`);
+        });
+        
+
+
+
+
+
+
+
+
+
+
+
 
 }
 
