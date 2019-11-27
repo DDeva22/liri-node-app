@@ -68,6 +68,7 @@ note: You will have to provide your own keys.
 8. In git, type in "node index.js" and the program will launch. 
 
 You will then be walked through your search interests. 
+-Photos Below-
 
 
 ### -Contact-
@@ -83,6 +84,17 @@ I, Danman15726, am the sole manager of this project, Liri. However, anyone and e
 
 Thank you for reading.
 
+
+
+
+### -Media-
+![Alt text](images/Capture1.PNG?raw=true "Homepage")
+
+![Alt text](images/Capture2.PNG?raw=true "Spotify")
+
+![Alt text](images/Capture3.PNG?raw=true "OMDB")
+
+![Alt text](images/Capture4.PNG?raw=true "BIT")
 
 
 
