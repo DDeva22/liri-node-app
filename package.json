@@ -24,6 +24,7 @@
   "homepage": "https://github.com/DAnMaN15726/liri-node-app#readme",
   "dependencies": {
     "axios": "^0.19.0",
+    "chalk": "^3.0.0",
     "dotenv": "^8.2.0",
     "inquirer": "^7.0.0",
     "moment": "^2.24.0",

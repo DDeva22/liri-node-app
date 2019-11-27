@@ -3,8 +3,9 @@ const axios = require("axios");
 const inquirer = require("inquirer");
 const keys = require("./keys.js");
 const moment = require("moment");
+const spotify = require("node-spotify-api");
 
-const spotify = keys.spotify;
+const spotifyK = keys.spotify;
 const bands = keys.bandsintown;
 const omdb = keys.omdb;
 
@@ -108,16 +109,33 @@ function inquire(){
 
 
 function spotifyS(input){
-    console.log(`Spotify Activated ${spotify.id} ${input}`);
+    
+    const spotifyFunc = new spotify({
+
+        id: spotifyK.id,
+        secret: spotifyK.secret
+
+    });
+
+    spotifyFunc.search({type: "track", query: input}) 
+    .then(function(response){
+        
+        console.log("\n");
+        
+        console.log(`Artist: ${response.tracks.items[0].artists[0].name}`);
+        console.log(`Album: ${response.tracks.items[0].album.name}  Song: ${response.tracks.items[0].name}`);
+        console.log("\n");
+        console.log(`Preview Link: '${response.tracks.items[0].preview_url}'`);
+        
+
+    });
+    
 
 
-    axios
-        .get(`https://accounts.spotify.com/authorize?client_id=${spotify.id}&response_type=code&redirect_uri=https://api.spotify.com/v1/search?query=${input}&state=dnmn15726`)
-        // .get(`https://api.spotify.com/v1/search?query=${input}`);
-        .then( function (response) {
-            console.log(response);
 
-        });
+
+
+    
 
 
 }
