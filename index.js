@@ -4,6 +4,7 @@ const inquirer = require("inquirer");
 const keys = require("./keys.js");
 const moment = require("moment");
 const spotify = require("node-spotify-api");
+const chalk = require("chalk");
 
 const spotifyK = keys.spotify;
 const bands = keys.bandsintown;
@@ -57,7 +58,7 @@ const questions = [
 const areYouDone = [
     {
         type: "confirm",
-        message: "Search for something else?",
+        message: "SEARCH FOR SOMETHING ELSE?",
         name: "continue"
     }
 ];
@@ -108,6 +109,7 @@ function inquire(){
 
 
 
+
 function spotifyS(input){
     
     const spotifyFunc = new spotify({
@@ -117,26 +119,25 @@ function spotifyS(input){
 
     });
 
-    spotifyFunc.search({type: "track", query: input}) 
-    .then(function(response){
+    spotifyFunc.search({type: "track", query: input}, function(error, response){
+
+        if (error) {
+            return console.log(chalk.yellow(`ERROR! This search could not be conducted. Either We do not have that song/Artist available OR \n you must check your spelling.`));
+        }
         
+
+
+        console.log("\n \n");
+        
+        console.log(chalk.cyan(`Artist: ${response.tracks.items[0].artists[0].name}`));
+        console.log(chalk.cyan(`Album: ${response.tracks.items[0].album.name}  Song: ${response.tracks.items[0].name}`));
         console.log("\n");
-        
-        console.log(`Artist: ${response.tracks.items[0].artists[0].name}`);
-        console.log(`Album: ${response.tracks.items[0].album.name}  Song: ${response.tracks.items[0].name}`);
-        console.log("\n");
-        console.log(`Preview Link: '${response.tracks.items[0].preview_url}'`);
-        
+        console.log(chalk.green(`Preview Link: '${response.tracks.items[0].preview_url}'`));
+
+
 
     });
     
-
-
-
-
-
-    
-
 
 }
 
@@ -155,21 +156,23 @@ function omdbS(input){
     axios
         .get(`https://www.omdbapi.com/?t=${input}&plot=short&tomatoes=True&apikey=${omdb.id}`)
         .then( function (response){
+
+
             console.log("\n");
-            console.log(`Title: ${response.data.Title}`);
+            console.log(chalk.cyan(`Title: ${response.data.Title}`));
             console.log(`Year: ${response.data.Year}`);
-            console.log(`IMDB Rating: ${response.data.imdbRating}`);
+            console.log(chalk.green(`IMDB Rating: ${response.data.imdbRating}`));
 
 
             //"The Rotten Tomatoes data was removed to comply with a legal request from Fandango (who owns Rotten Tomatoes)."
             //https://github.com/omdbapi/OMDb-API/issues/5
-            console.log(`SEE CODE FOR EXPLAINATION: ${response.data.tomatoMeter}`);
+            console.log(chalk.red(`SEE CODE FOR EXPLAINATION: ${response.data.tomatoMeter}`));
             console.log(`Country: ${response.data.Country}`);
             console.log(`Language: ${response.data.Language}`);
-            console.log(`Plot: ${response.data.Plot}`);
+            console.log(chalk.green(`Plot: ${response.data.Plot}`));
             console.log(`Actors: ${response.data.Actors}`);
-        });
-
+        })
+        
 
 
 
@@ -179,7 +182,7 @@ function omdbS(input){
 
 
 function bATS(input){
-    console.log(`BIT Activated`);
+    //The API will repeat entries for certain artists. I have come to the conclusion that this is on their end vs. mine.
     
 
 
@@ -197,9 +200,10 @@ function bATS(input){
             for (i = 0; i <= 5; i++){
                 console.log("\n");
                 
-                console.log(`The place is called ${response.data[i].venue.name} located in ${response.data[i].venue.city}, ${response.data[i].venue.country}`);
                 console.log(i);
-                console.log(`The Date of the event is ${moment(response.data[0].datetime).format("LLL")}`);
+                console.log(chalk.cyan(`The place is called ${response.data[i].venue.name} located in ${response.data[i].venue.city}, ${response.data[i].venue.country}`));
+                
+                console.log(chalk.green(`The Date of the event is ${moment(response.data[0].datetime).format("LLL")}`));
             }
         
 
@@ -210,12 +214,12 @@ function bATS(input){
         })
 
         .catch( function(error){
-            console.log(`No Events at this time!`);
+            console.log(chalk.yellow(`No more Events at this time!`));
         });
 
 
 
-        // 2020-01-10T20:00:00
+        
 
 
 
